@@ -2,30 +2,26 @@ package br.edu.ibmec.bigdata.controller;
 
 import java.util.List;
 
+import br.edu.ibmec.bigdata.model.Cliente;
+import br.edu.ibmec.bigdata.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import br.edu.ibmec.bigdata.model.Endereco;
 import br.edu.ibmec.bigdata.service.EnderecoService;
 import jakarta.validation.Valid;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/enderecos")
+@RequestMapping("enderecos")
 public class EnderecoController {
     @Autowired
     private EnderecoService enderecoService;
-    
-    public EnderecoController(EnderecoService enderecoService) {
-        this.enderecoService = enderecoService;
-    }
+
+    @Autowired
+    private ClienteService clienteService;
 
     @GetMapping
     public ResponseEntity<List<Endereco>> getAllEnderecos() {
@@ -36,7 +32,6 @@ public class EnderecoController {
         return ResponseEntity.ok(enderecos); // Retorna 200 com a lista de endereços
     }
 
-    
     @GetMapping("/{id}")
     public ResponseEntity<Endereco> getEnderecoById(@PathVariable Integer id) {
         Endereco endereco = enderecoService.buscarEnderecoPorId(id);
@@ -46,20 +41,25 @@ public class EnderecoController {
         return ResponseEntity.ok(endereco); // Retorna 200 com o endereço encontrado
     }
 
-    @PostMapping
-    public ResponseEntity<Endereco> adicionarEndereco(@Valid @RequestBody Endereco endereco) {
-        Endereco novoEndereco = enderecoService.adicionarEndereco(endereco);
-        return ResponseEntity.ok(novoEndereco);
+    @PostMapping("/clientes/{clienteId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Endereco adicionarEndereco(@PathVariable int clienteId, @Valid @RequestBody Endereco endereco) {
+        Cliente cliente = clienteService.buscarCliente(clienteId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Cliente não encontrado"));
+
+        endereco.setCliente(cliente);
+
+        return enderecoService.adicionarEndereco(endereco, cliente);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Endereco> atualizarEndereco(@PathVariable int id, @org.jetbrains.annotations.NotNull @Valid @RequestBody Endereco endereco){
+    public ResponseEntity<Endereco> atualizarEndereco(@PathVariable int id, @Valid @RequestBody Endereco endereco){
         endereco.setId(id);
         Endereco enderecoAtualizado = enderecoService.atualizarEndereco(endereco);
         return ResponseEntity.ok(enderecoAtualizado);
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> removerEndereco(@PathVariable int id){
         enderecoService.removerEndereco(id);
         return ResponseEntity.noContent().build();

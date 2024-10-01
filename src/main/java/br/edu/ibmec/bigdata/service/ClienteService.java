@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.validation.Valid;
 
@@ -25,6 +26,10 @@ public class ClienteService {
 
     public Cliente buscarClientePorCpf(String cpf) {
         return clienteRepository.findByCpf(cpf);
+    }
+
+    public Optional<Cliente> buscarCliente(int id){
+        return clienteRepository.findById(id);
     }
 
     public Cliente adicionarCliente(@Valid Cliente cliente){

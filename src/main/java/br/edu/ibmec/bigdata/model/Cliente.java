@@ -48,6 +48,7 @@ public class Cliente {
     @Pattern(regexp = "\\(\\d{2}\\) \\d{5}-\\d{4}", message = "Telefone deve seguir o padrão (XX) XXXXX-XXXX")
     private String telefone;
 
+    @Column
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Endereco> enderecos;
 

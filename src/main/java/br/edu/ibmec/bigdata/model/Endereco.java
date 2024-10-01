@@ -1,5 +1,6 @@
 package br.edu.ibmec.bigdata.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -51,6 +52,7 @@ public class Endereco {
 
     // Relacionamento com a entidade Cliente
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 

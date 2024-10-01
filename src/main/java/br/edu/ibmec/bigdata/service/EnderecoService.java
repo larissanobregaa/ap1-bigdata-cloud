@@ -1,5 +1,6 @@
 package br.edu.ibmec.bigdata.service;
 
+import br.edu.ibmec.bigdata.model.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +27,19 @@ public class EnderecoService {
         return enderecoRepository.findById(id).orElse(null);
     }
 
-    
+    public Endereco adicionarEndereco(Endereco endereco, Cliente cliente) {
+        endereco.setCliente(cliente);
+        return enderecoRepository.save(endereco);
+    }
+
+    // Método para buscar o cliente associado a um endereço pelo ID do endereço
+    public Cliente buscarClientePorEnderecoId(Integer enderecoId) {
+        Endereco endereco = enderecoRepository.findById(enderecoId)
+                .orElseThrow(() -> new IllegalArgumentException("Endereço não encontrado"));
+
+        return endereco.getCliente();
+    }
+
     // Método para adicionar endereço
     public Endereco adicionarEndereco(@Valid Endereco endereco){
         if (enderecoJaExiste(endereco)) {
