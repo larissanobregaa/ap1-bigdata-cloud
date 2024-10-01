@@ -1,0 +1,35 @@
+-------------------------------------------------------------------------------
+Test set: br.edu.ibmec.bigdata.service.ClienteServiceTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.292 s <<< FAILURE! -- in br.edu.ibmec.bigdata.service.ClienteServiceTest
+br.edu.ibmec.bigdata.service.ClienteServiceTest.adicionarCliente_quandoClienteValido_entaoSalvar -- Time elapsed: 0.276 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: expected: not <null>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:152)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertNotNull.failNull(AssertNotNull.java:49)
+	at org.junit.jupiter.api.AssertNotNull.assertNotNull(AssertNotNull.java:35)
+	at org.junit.jupiter.api.AssertNotNull.assertNotNull(AssertNotNull.java:30)
+	at org.junit.jupiter.api.Assertions.assertNotNull(Assertions.java:304)
+	at br.edu.ibmec.bigdata.service.ClienteServiceTest.adicionarCliente_quandoClienteValido_entaoSalvar(ClienteServiceTest.java:47)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+
+br.edu.ibmec.bigdata.service.ClienteServiceTest.adicionarCliente_quandoDataNascimentoNula_entaoLancarExcecao -- Time elapsed: 0.016 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: Unexpected exception type thrown, expected: <java.lang.IllegalArgumentException> but was: <java.lang.NullPointerException>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:67)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:35)
+	at org.junit.jupiter.api.Assertions.assertThrows(Assertions.java:3115)
+	at br.edu.ibmec.bigdata.service.ClienteServiceTest.adicionarCliente_quandoDataNascimentoNula_entaoLancarExcecao(ClienteServiceTest.java:67)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+Caused by: java.lang.NullPointerException: Cannot invoke "java.time.LocalDate.until(java.time.chrono.ChronoLocalDate)" because "startDateInclusive" is null
+	at java.base/java.time.Period.between(Period.java:389)
+	at br.edu.ibmec.bigdata.model.Cliente.isMaiorDeIdade(Cliente.java:63)
+	at br.edu.ibmec.bigdata.service.ClienteService.adicionarCliente(ClienteService.java:21)
+	at br.edu.ibmec.bigdata.service.ClienteServiceTest.lambda$adicionarCliente_quandoDataNascimentoNula_entaoLancarExcecao$1(ClienteServiceTest.java:68)
+	at org.junit.jupiter.api.AssertThrows.assertThrows(AssertThrows.java:53)
+	... 6 more
+
